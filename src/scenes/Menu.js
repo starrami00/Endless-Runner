@@ -8,13 +8,6 @@ class Menu extends Phaser.Scene {
         this.load.image('TitleScreen', './assets/TitleScreen.png');
         // load audio
         this.load.audio('bg_music', './assets/SpaceMusic.wav');
-        this.load.audio('sfx_select', './assets/assets_blip_select12.wav');
-        this.load.audio('sfx_explosion1', './assets/Explosion1.wav');
-        this.load.audio('sfx_explosion2', './assets/Explosion2.wav')
-        this.load.audio('sfx_explosion3', './assets/Explosion3.wav');
-        this.load.audio('sfx_explosion4', './assets/Explosion4.wav');
-        this.load.audio('sfx_rocket', './assets/assets_rocket_shot.wav');
-        
     }
 
     create() {
@@ -31,20 +24,11 @@ class Menu extends Phaser.Scene {
 
     update() {
         if(Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            // easy mode
-            game.settings = {
-                spaceshipSpeed: 3,
-                gameTimer: 60000
-            }
-            this.sound.play('sfx_select');
-            this.scene.start('playScene');
+            // Go to Credits
+            this.scene.start('creditScene');
         }
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            // hard mode
-            game.settings = {
-                spaceshipSpeed: 4,
-                gameTimer: 45000
-            }
+            // Start game
             this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
