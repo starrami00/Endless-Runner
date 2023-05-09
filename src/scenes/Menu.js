@@ -15,8 +15,13 @@ class Menu extends Phaser.Scene {
         let title = this.add.sprite(0,0,'TitleScreen');
         title.setOrigin(0,0);
         let music = this.sound.add('bg_music');
-        music.setLoop(true);
-        music.play();
+        let musicConfig = {
+            mute: 0,
+            volume: 0.4,
+            loop: true, 
+            delay: 0
+        }
+        music.play(musicConfig);
         
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);

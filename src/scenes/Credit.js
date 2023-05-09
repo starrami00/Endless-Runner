@@ -5,8 +5,6 @@ class Credit extends Phaser.Scene {
     preload() {
         // load credit screen
         this.load.image('CreditScreen', './assets/creditScreen.png');
-        // load audio
-        this.load.audio('bg_music', './assets/titleBgMusic.wav');
     }
 
     create() {
@@ -20,7 +18,9 @@ class Credit extends Phaser.Scene {
     update() {
         if(Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             // Go to Menu
+            this.sound.stopByKey('bg_music');
             this.scene.start('menuScene');
+            
         }
     
     }
