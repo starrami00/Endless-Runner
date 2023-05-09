@@ -7,7 +7,7 @@ class Menu extends Phaser.Scene {
         // load title screen
         this.load.image('TitleScreen', './assets/TitleScreen.png');
         // load audio
-        this.load.audio('bg_music', './assets/SpaceMusic.wav');
+        this.load.audio('bg_music', './assets/titleBgMusic.wav');
     }
 
     create() {
@@ -26,10 +26,10 @@ class Menu extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             // Go to Credits
             this.scene.start('creditScene');
+
         }
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // Start game
-            this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
     }
