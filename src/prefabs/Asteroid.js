@@ -12,6 +12,17 @@ class Asteroid extends Phaser.GameObjects.Sprite {
     update() {
         // move asteroid left
         this.x -= this.moveSpeed;
+
+        // wrap around from left edge to right edge
+        if(this.x <= 0 - this.width) {
+            this.reset();
+            let asteroidHeight = Phaser.Math.Between(0, 1);
+            if(asteroidHeight == 1){
+                this.y = borderUISize*6;
+            } else {
+                this.y = borderUISize*10;
+            }
+        }
     }
 
     // position reset
