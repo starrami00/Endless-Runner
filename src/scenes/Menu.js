@@ -35,6 +35,9 @@ class Menu extends Phaser.Scene {
         }
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // Start game
+            game.settings = {
+                asteroidSpeed: 3
+            }
             this.scene.start('playScene');
         }
     }

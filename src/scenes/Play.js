@@ -15,6 +15,8 @@ class Play extends Phaser.Scene {
         //this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
     update() {
+        this.asteroid1.update();
+        this.asteroid2.update();
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -45,6 +47,9 @@ class Play extends Phaser.Scene {
         this.earthbg.setDepth(3);
         this.spacebg = this.add.tileSprite(0, 0, 640, 480, 'space').setOrigin(0, 0);
         this.ground = this.add.tileSprite(0, 0, 640, 480, 'ground').setOrigin(0, 0);
+        // add asteroid x2
+        this.asteroid1 = new Asteroid(this, game.config.width + borderUISize*6, borderUISize*6, 'asteroid', 0, 10).setOrigin(0, 0);
+        this.asteroid2 = new Asteroid(this, game.config.width + borderUISize*6, borderUISize*10, 'asteroid', 0, 20).setOrigin(0, 0);
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
