@@ -38,6 +38,7 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 asteroidSpeed: 3
             }
+            this.sound.stopByKey('bg_music');
             this.scene.start('playScene');
         }
     }
