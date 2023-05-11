@@ -119,7 +119,6 @@ class Play extends Phaser.Scene {
     
     create() {
          // set up Phaser-provided cursor key input
-        this.cursors = this.input.keyboard.createCursorKeys();
         this.SCROLL_SPEED = 4;
         this.JUMP_VELOCITY = -700;
         this.MAX_JUMPS = 2;
