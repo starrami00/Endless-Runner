@@ -3,9 +3,11 @@ class Play extends Phaser.Scene {
         super("playScene");
     }
     preload() {
-        // load bg music
+        // load audio
         this.load.audio('gameBg', './assets/gameBg.wav');
-        this.load.audio('asteroidHit', './assets/asteroidHit.wav')
+        this.load.audio('asteroidHit', './assets/asteroidHit.wav');
+        this.load.audio('moo', './assets/cowMoo.wav');
+        this.load.audio('speed', './assets/speedUp.wav');
         // load images
         this.load.image('star', './assets/particle.png');
         this.load.image('explode', './assets/explode.png');
@@ -53,10 +55,11 @@ class Play extends Phaser.Scene {
             }
             // increase speed
             if(this.Score > 0 && this.Score % 10 == 0 && this.spedUp == false){
-                this.speedIncrease();
+                this.speedIncrease();                     
                 this.spedUp = true;
             }
             if(this.Score % 10 == 1){
+                this.speedText.setActive(false).setVisible(false);
                 this.spedUp = false;
             }
             // Check if boy has jumps to spare and run animations
@@ -92,6 +95,8 @@ class Play extends Phaser.Scene {
     cowCollision(player, cow) {
         // simple AABB checking
         if (player.x < cow.x + cow.width && player.x + cow.width > cow.x && player.y < cow.y + cow.height && player.height + player.y > cow.y) {
+            // cow sfx
+            this.sound.play('moo');
             // particle emmiter
             this.add.particles(cow.x, cow.y, 'star', {
                 speed: 100,
@@ -134,8 +139,19 @@ class Play extends Phaser.Scene {
     }
 
     speedIncrease(){
+        this.sound.play('speed');
+        this.speedText.setActive(true).setVisible(true);
+        // flash FIRE text
+        this.tweens.add({
+            targets: this.speedText,
+            alpha: 0,
+            duration: 1000,
+            yoyo: true,
+            repeat: 3
+            });  
         let increase = 1.5;
         this.asteroid.moveSpeed *= increase;
+ 
     }
 
     restart(){
@@ -231,6 +247,21 @@ class Play extends Phaser.Scene {
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.Score, scoreConfig);
 
+        // text
+        let speedConfig = {
+            fontFamily: 'Arial',
+            fontSize: '28px',
+            color: '#FFFCFF',
+            align: 'center',
+            padding: {
+            top: 5,
+            bottom: 5,
+            },
+            fixedWidth: 200
+        }
+        this.speedText = this.add.text(game.config.width - borderUISize - borderPadding*35, borderUISize + borderPadding*2, 'Speed Increase', speedConfig);
+        this.speedText.setActive(false).setVisible(false);
+       
         // define keys
         //keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);

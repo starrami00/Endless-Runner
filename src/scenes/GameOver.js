@@ -9,7 +9,7 @@ class GameOver extends Phaser.Scene {
         // load audio for bg music
         this.load.audio('bg_music', './assets/titleBgMusic.wav');
     }
-    // get play score data
+    // get player score data
     init (data) {
         console.log('init', data);
         this.finalScore = data.score;
