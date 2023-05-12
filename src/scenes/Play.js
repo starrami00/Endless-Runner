@@ -4,7 +4,8 @@ class Play extends Phaser.Scene {
     }
     preload() {
         // load bg music
-        this.load.audio('bg_music', './assets/titleBgMusic.wav');
+        this.load.audio('gameBg', './assets/gameBg.wav');
+        this.load.audio('asteroidHit', './assets/asteroidHit.wav')
         // load images
         this.load.image('star', './assets/particle.png');
         this.load.image('explode', './assets/explode.png');
@@ -107,6 +108,8 @@ class Play extends Phaser.Scene {
     asteroidCollision(player, asteroid) {
         // simple AABB checking
         if (player.x + 12 < asteroid.x + asteroid.width - 8 && player.x + player.width - 12 > asteroid.x + 8 && player.y + 12 < asteroid.y + asteroid.height - 8 && player.height + player.y - 12 > asteroid.y + 8 && this.ducking == false) {
+            // asteroid sfx
+            this.sound.play('asteroidHit');
             // particle emmiter for asteroid
             this.add.particles(asteroid.x, asteroid.y, 'rock', {
                 speed: 200,
@@ -114,6 +117,7 @@ class Play extends Phaser.Scene {
                 gravityY: 200,
                 stopAfter: 10
             });
+            // particle emmiter for player
             this.add.particles(player.x, player.y, 'explode', {
                 speed: 100,
                 lifespan: 500,
@@ -122,7 +126,7 @@ class Play extends Phaser.Scene {
             });
             // GAME OVER flag
             this.gameOver = true;
-            this.time.addEvent({ delay: 1000, callback: this.restart, callbackScope: this, loop: false });
+            this.time.addEvent({ delay: 1500, callback: this.restart, callbackScope: this, loop: false });
             return true;
         } else {
             return false;
@@ -135,8 +139,8 @@ class Play extends Phaser.Scene {
     }
 
     restart(){
-        this.sound.stopByKey('bg_music');
-        this.scene.start('gameOverScene');
+        this.sound.stopByKey('gameBg');
+        this.scene.start('gameOverScene', { score: this.Score });
     }
     
     create() {
@@ -144,6 +148,7 @@ class Play extends Phaser.Scene {
         this.SCROLL_SPEED = 4;
         this.JUMP_VELOCITY = -750;
         this.MAX_JUMPS = 2;
+        this.MAX_SPEED = 10;
         this.physics.world.gravity.y = 2600;
         // animation for running
         this.anims.create({ 
@@ -175,7 +180,7 @@ class Play extends Phaser.Scene {
             ],
         });
         // play music
-        let music = this.sound.add('bg_music');
+        let music = this.sound.add('gameBg');
         music.setLoop(true);
         music.play();
         // place tile sprite
@@ -210,15 +215,13 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.boy, this.floor);
         // Setting Game Over
         this.gameOver = false;
-
         // initialize score
         this.Score = 0;
         // display score
         let scoreConfig = {
-            fontFamily: 'Pixel',
+            fontFamily: 'Arial',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            color: '#FFFCFF',
             align: 'center',
             padding: {
             top: 5,

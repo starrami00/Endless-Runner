@@ -9,6 +9,12 @@ class GameOver extends Phaser.Scene {
         // load audio
         this.load.audio('bg_music', './assets/titleBgMusic.wav');
     }
+    // get play score data
+    init (data) {
+        console.log('init', data);
+        this.finalScore = data.score;
+    }
+
 
     create() {
         // title config
@@ -29,20 +35,34 @@ class GameOver extends Phaser.Scene {
     }
 
     update() {
+        // display final score
+        let scoreConfig = {
+            fontFamily: 'Lobster',
+            fontSize: '28px',
+            color: '#F3B700',
+            align: 'center',
+            padding: {
+            top: 5,
+            bottom: 5,
+            },
+            fixedWidth: 200
+        }
+        this.add.text(game.config.width/2, game.config.height/4, 'Final Score:', scoreConfig).setOrigin(0.5);
+        this.scoreLeft = this.add.text(borderUISize + borderPadding * 18, borderUISize + borderPadding*10, this.finalScore, scoreConfig);
+
+        // scene changes
         if(Phaser.Input.Keyboard.JustDown(keyR)) {
             // restart game
+            this.sound.stopByKey('bg_music');
             this.scene.start('playScene');
         }
         if(Phaser.Input.Keyboard.JustDown(keyM)){
             // back to menu
+            this.sound.stopByKey('bg_music');
             this.scene.start('menuScene');
         }
         if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // Go to Credits
-            game.settings = {
-                asteroidSpeed: 3
-            }
-            //this.sound.stopByKey('bg_music');
             this.scene.start('creditScene');
         }
     }
