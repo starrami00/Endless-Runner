@@ -6,7 +6,7 @@ class GameOver extends Phaser.Scene {
     preload() {
         // load title screen
         this.load.image('EndScreen', './assets/EndScreen.png');
-        // load audio
+        // load audio for bg music
         this.load.audio('bg_music', './assets/titleBgMusic.wav');
     }
     // get play score data
