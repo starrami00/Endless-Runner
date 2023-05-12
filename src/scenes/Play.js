@@ -17,7 +17,7 @@ class Play extends Phaser.Scene {
         this.load.image('arrow', './assets/arrow.png');
 
 
-        this.load.atlas('platformer_atlas', './assets/kenny_sheet.png', './assets/kenny_sheet.json');
+        this.load.atlas('platformer_atlas', './assets/player_sheet.png', './assets/player_sheet.json');
 
         // tiles in spritesheet 
         this.load.image('ground', './assets/ground.png');
@@ -58,11 +58,11 @@ class Play extends Phaser.Scene {
         
          // if so, we have jumps to spare
 	    if(this.alien.isGrounded) {
-            this.alien.anims.play('walk', true);
+            this.alien.anims.play('Running', true);
 	    	this.jumps = this.MAX_JUMPS;
 	    	this.jumping = false;
 	    } else {
-	    	this.alien.anims.play('jump');
+	    	this.alien.anims.play('Jumping');
 	    }
 
 
@@ -118,30 +118,30 @@ class Play extends Phaser.Scene {
     }
     
     create() {
-         // set up Phaser-provided cursor key input
+        // set up Phaser-provided cursor key input
         this.SCROLL_SPEED = 4;
         this.JUMP_VELOCITY = -700;
         this.MAX_JUMPS = 2;
         this.physics.world.gravity.y = 2600;
-
+        // animation for running
         this.anims.create({ 
-            key: 'walk', 
+            key: 'Running', 
             frames: this.anims.generateFrameNames('platformer_atlas', {      
-                prefix: 'walk',
+                prefix: 'Running',
                 start: 1,
-                end: 11,
-                suffix: '',
+                end: 3,
+                suffix: '.png',
                 zeroPad: 4 
             }), 
-            frameRate: 30,
+            frameRate: 10,
             repeat: -1 
         });
-
+        // animation for jumping
         this.anims.create({
-            key: 'jump',
+            key: 'Jumping',
             defaultTextureKey: 'platformer_atlas',
             frames: [
-                { frame: 'jump' }
+                { frame: 'Jumping' }
             ],
         });
         // play music
@@ -159,21 +159,19 @@ class Play extends Phaser.Scene {
         this.cow = new Cow(this, game.config.width + borderUISize*6, borderUISize*6, 'cow', 0, 20).setOrigin(0, 0);
         // timer for cows
         this.time = 0;
-
-
-         //make ground tiles group
-         this.floor = this.add.group();
-         for(let i = 0; i < game.config.width; i += tileSize) {
-             let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
-             groundTile.body.immovable = true;
-             groundTile.body.allowGravity = false;
-             this.floor.add(groundTile);
-         }
-         // put another tile sprite above the ground tiles
-         this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'ground').setOrigin(0);
-         // set up my alien son 👽
-         this.alien = this.physics.add.sprite(120, game.config.height/2-tileSize, 'platformer_atlas', 'side').setScale(SCALE);
-          // add physics collider
+        //make ground tiles group
+        this.floor = this.add.group();
+        for(let i = 0; i < game.config.width; i += tileSize) {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.floor.add(groundTile);
+        }
+        // put another tile sprite above the ground tiles
+        this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'ground').setOrigin(0);
+        // set up my alien son 👽
+        this.alien = this.physics.add.sprite(120, game.config.height/2-tileSize, 'platformer_atlas', 'side').setScale(SCALE);
+        // add physics collider
         this.physics.add.collider(this.alien, this.floor);
 
         this.gameOver = false;
