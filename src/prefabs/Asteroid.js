@@ -18,9 +18,9 @@ class Asteroid extends Phaser.GameObjects.Sprite {
             this.reset();
             let asteroidHeight = Phaser.Math.Between(0, 1);
             if(asteroidHeight == 1){
-                this.y = borderUISize*6;
-            } else {
                 this.y = borderUISize*10;
+            } else {
+                this.y = borderUISize*12;
             }
         }
     }
