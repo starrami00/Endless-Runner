@@ -2,6 +2,7 @@
 Stephanie Ramirez
 Sleepy Cow
 Total Hours: 28
+
 * I am particularly proud of how I implemented the score tracking and the display of it across different scenes.
 * I was not able to figure this out in prior attempts but after an hours of researching and debugging with the console
 * I was able to get the player's score to display during game play and at the end screen.
