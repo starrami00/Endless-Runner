@@ -23,17 +23,18 @@ class Play extends Phaser.Scene {
    
     }
     update() {
+        // keep running till game is over
         if(this.gameOver == false) {
             // delay of cows entering screen
             if(this.cowTime < 60){
                 this.cowTime++;
             }
-            // enter in asteroids
-            this.asteroid.update();
-            
             if(this.cowTime == 60){
                 this.cow.update();
             }
+            // enter in asteroids
+            this.asteroid.update();
+            
             // move background
             this.moon.tilePositionX += 2;
             this.spacebg.tilePositionX += 1;
@@ -62,7 +63,7 @@ class Play extends Phaser.Scene {
                 this.speedText.setActive(false).setVisible(false);
                 this.spedUp = false;
             }
-            // Check if boy has jumps to spare and run animations
+            // Check if player has jumps to spare and run animations
             if(this.boy.isGrounded) {
                 this.boy.anims.play('Running', true);
                 this.jumps = this.MAX_JUMPS;
@@ -76,7 +77,7 @@ class Play extends Phaser.Scene {
                 this.jumps--;
                 this.jumping = true;
             }
-            //player ducking controls
+            // player ducking controls
             if(Phaser.Input.Keyboard.JustDown(keyDOWN)){
                 this.ducking = true;
                 this.boy.anims.play('Duck'); 
@@ -141,7 +142,7 @@ class Play extends Phaser.Scene {
     speedIncrease(){
         this.sound.play('speed');
         this.speedText.setActive(true).setVisible(true);
-        // flash FIRE text
+        // flash speed text
         this.tweens.add({
             targets: this.speedText,
             alpha: 0,
@@ -160,11 +161,10 @@ class Play extends Phaser.Scene {
     }
     
     create() {
-        // set up Phaser-provided cursor key input
+        // set up game
         this.SCROLL_SPEED = 4;
         this.JUMP_VELOCITY = -750;
         this.MAX_JUMPS = 2;
-        this.MAX_SPEED = 10;
         this.physics.world.gravity.y = 2600;
         // animation for running
         this.anims.create({ 
@@ -214,7 +214,7 @@ class Play extends Phaser.Scene {
         this.spedUp = false;
         // init ducking
         this.ducking = false;
-        //make ground tiles group
+        // make ground tiles group
         this.floor = this.add.group();
         for(let i = 0; i < game.config.width; i += tileSize) {
             let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'platformer_atlas').setScale(SCALE).setOrigin(0);
@@ -229,7 +229,7 @@ class Play extends Phaser.Scene {
         this.boy.setScale(1.5);
         // add physics collider
         this.physics.add.collider(this.boy, this.floor);
-        // Setting Game Over
+        // setting Game Over
         this.gameOver = false;
         // initialize score
         this.Score = 0;
@@ -246,8 +246,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.Score, scoreConfig);
-
-        // text
+        // speed text
         let speedConfig = {
             fontFamily: 'Arial',
             fontSize: '28px',
@@ -264,7 +263,6 @@ class Play extends Phaser.Scene {
        
         // define keys
         //keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         

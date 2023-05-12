@@ -12,7 +12,6 @@ class Credit extends Phaser.Scene {
         let title = this.add.sprite(0,0,'CreditScreen');
         title.setOrigin(0,0);
         
-        
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     }
 
